@@ -1,0 +1,139 @@
+.profileContainer {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    max-width: 100%;
+    background-color: #e2e4e4;
+  }
+  
+  .profileContainer > div {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    max-width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .profileContainer > div:first-child > h1 {
+    text-decoration: underline ;
+    text-decoration-color: rgba(36, 35, 35 , 0.4);
+    text-decoration-thickness: 2px;
+    color: crimson;
+    font: 600 3vmax "Roboto";
+    transform: translateX(-8vmax) translateY(-2vmax);
+  }
+  
+  .profileContainer > div:first-child > img {
+    width: 20vmax;
+    border-radius: 100%;
+    transition: all 0.5s;
+    border: 1px solid crimson;
+  }
+  
+  .profileContainer > div:first-child > img:hover {
+    transform: scale(1.05);
+  }
+  
+  .profileContainer > div:first-child > a {
+    border: none;
+    background-color: crimson;
+    font: 400 1.5vmax cursive;
+    color: white;
+    text-decoration: none;
+    padding: 0.8vmax;
+    width: 35%;
+    margin: 4vmax;
+    text-align: center;
+    transition: all 0.5s;
+    border-radius: 8px;
+  }
+  
+  .profileContainer > div:first-child > a:hover {
+    color: crimson;
+    border: 1px solid crimson;
+    background-color: rgba(243, 158, 158, 0.3);
+  }
+  
+  .profileContainer > div:last-child {
+    justify-content: space-evenly;
+    align-items: flex-start;
+    padding: 5vmax;
+    box-sizing: border-box;
+  }
+  
+  .profileContainer > div:last-child > div > h4 {
+    color: crimson;
+    font: 550 2.5vmax "Roboto";
+  }
+  
+  .profileContainer > div:last-child > div > p {
+    color: rgba(0, 0, 0, 0.618);
+    font: 500 2vmax cursive;
+    margin: 0.5vmax;
+  }
+  
+  .profileContainer > div:last-child > div:last-child {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+  }
+  
+  .profileContainer > div:last-child > div:last-child > a {
+    border: none;
+    background-color: crimson;
+    font: 400 1.5vmax cursive;
+    color: white;
+    text-decoration: none;
+    padding: 0.8vmax;
+    text-align: center;
+    transition: all 0.5s;
+    margin: 1vmax 0;
+    border-radius: 8px;
+  }
+  
+  .profileContainer > div:last-child > div:last-child > a:hover {
+    color: crimson;
+    border: 1px solid crimson;
+    background-color: rgba(243, 158, 158, 0.3);
+  }
+  
+  @media screen and (max-width: 600px) {
+    .profileContainer {
+      flex-direction: column;
+    }
+  
+    .profileContainer > div:first-child > h1 {
+      font: 600 4vmax "Roboto";
+      transform: translateY(-2vmax);
+    }
+  
+    .profileContainer > div:first-child > a {
+      font: 500 2vmax cursive;
+      padding: 1vmax;
+    }
+  
+    .profileContainer > div:last-child {
+      text-align: center;
+      align-items: center;
+    }
+  
+    .profileContainer > div:last-child > div > h4 {
+      font: 600 3vmax "Roboto";
+    }
+  
+    .profileContainer > div:last-child > div > p {
+      font: 500 2vmax cursive;
+      margin: 0.5vmax 0;
+    }
+  
+    .profileContainer > div:last-child > div:last-child > a {
+      font: 500 2vmax cursive;
+      padding: 1vmax;
+      margin: 2vmax 0;
+    }
+  }

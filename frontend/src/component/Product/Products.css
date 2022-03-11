@@ -1,0 +1,148 @@
+.productsHeading{
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 2vmax;
+    font-weight: 800;
+    border-bottom: 1px solid rgba(21,21,21,0.5);
+    width: 20vmax;
+    padding: 1vmax;
+    margin: 2vmax auto;
+    color: rgba(0,0, 0, 0.7);
+    transition: all 0.5s;
+    margin-bottom: 5vmax;
+}
+
+.productsHeading:hover{
+    transform: translateY(-1vmax);
+    color: crimson;
+    background-color: white;
+    border: 1px solid crimson;
+}
+
+.products{
+    width: 85%;
+    margin-left: 8vmax;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 0 0 5vmax;
+    min-height: 30vh;
+    
+}
+
+.paginationBox{
+    display: flex;
+    justify-content: center;
+    margin: 8vmax 0 0 0;
+}
+
+.pagination{
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+.page-item{
+    background-color: rgb(255,255,255);
+    list-style: none;
+    border: 1px solid rgba(0,0,0,0.178);
+    padding: 1vmax 1.5vmax;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+
+.page-item:first-child{
+    border-radius: 5px 0 0 5px;
+}
+
+.page-item:last-child{
+    border-radius: 0 5px 5px 0;
+}
+
+.page-link{
+    text-decoration: none;
+    font: 500 1vmax "Lucida Sans";
+    color: crimson;
+    transition: all 0.3s;
+}
+
+.page-item:hover{
+    background-color: rgb(230,230,230);
+}
+
+.page-item:hover .page-link{
+    color: rgb(80,80,80);
+}
+
+.pageItemActive{
+    background-color: rgb(219, 211, 211) ;
+}
+
+.pageLinkActive{
+    color: white;
+}
+
+.filterBox{
+    width: 10%;
+    position: absolute;
+    top: 11.5vmax;
+    left: 1.2vmax;
+}
+
+.filterBox > h2{
+    text-align: center;
+    margin-bottom: 2.5vmax;
+    color: crimson;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border-bottom: 1px solid rgba(21,21,21,0.5);
+}
+
+.categoryBox{
+    padding: 0%;
+    
+}
+
+.category-link{
+    list-style: none;
+    color: rgba(0,0, 0, 0.7);
+    font: 450 1vmax "Lucida Sans";
+    margin: 0.6vmax;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.category-link:hover{
+    color: crimson;
+}
+
+.filterBox > fieldset{
+    border: 1px solid rgba(0, 0, 0, 0.329);
+}
+
+
+
+
+
+
+@media screen and (max-width:600px){
+
+    .products{
+        width: auto;
+        justify-content: center;
+    }
+    .filterBox{
+        width: 20vmax;
+        position: static;
+        margin: 6vmax auto auto auto;
+        
+    }
+    .page-link{
+        font: 500 1.7vmax "Lucida Sans";
+    }
+    .productsHeading{
+        font-size: 4vmax;
+    }
+    .category-link{
+        font: 500 2vmax "Lucida Sans";
+    }
+}

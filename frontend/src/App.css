@@ -1,0 +1,44 @@
+*{
+    margin: 0;
+    scroll-behavior: smooth;
+}
+
+body{
+    margin: 0;
+    background-color: white;
+    cursor: url("./images/cursor.png") , auto;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar{
+    width: 3px;
+}
+
+::-webkit-scrollbar-track{
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb{
+    background: crimson;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background: #555;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.redColor{
+    color: red !important;
+}
+
+.greenColor{
+    color: green !important;
+}

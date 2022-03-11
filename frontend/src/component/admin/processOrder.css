@@ -1,0 +1,104 @@
+.confirmOrderPage{
+    background-color: white;
+}
+
+.heading {
+    font:400 2.2vmax "Roboto";
+    padding-top: 2vmax;
+    padding-bottom: 1vmax;
+    text-align: center;
+    border-bottom: 1px solid rgb(112, 112, 112);
+}
+
+.confirmshippingArea{
+    margin-left: 5vmax;
+}
+
+.confirmshippingArea > p{
+    padding-top: 2vmax;
+    font:300 1.7vmax "Roboto";
+}
+
+.confirmCartItemsContainer > div > img {
+  padding-top: 3vmax;
+  padding-left: 3vmax;
+  width: 20vmax;
+}
+
+.confirmCartItemsContainer > div > a{
+   font: 300 1.3vmax "Roboto";
+   color: rgb(39, 38, 38);
+   padding: 2vmax;
+   text-decoration: none;
+}
+
+.confirmCartItemsContainer > div > a:hover {
+  color: crimson;
+  text-decoration: none;
+}
+
+.confirmCartItemsContainer > div > span{
+  font: 300 1vmax "Roboto";
+  color: rgb(39, 38, 38);
+}
+
+.updateOrderForm {
+    margin: 5vmax 0;
+    padding: 3vmax;
+    background-color: white;
+  }
+  
+  .updateOrderForm > div {
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+  .updateOrderForm > div > select {
+    padding: 1vmax 4vmax;
+    margin: 2rem 0;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.267);
+    border-radius: 4px;
+    font: 300 1.2vmax cursive;
+    outline: none;
+  }
+  
+  .updateOrderForm > div > svg {
+    position: absolute;
+    transform: translateX(1vmax);
+    font-size: 1.6vmax;
+    color: rgba(0, 0, 0, 0.623);
+  }
+  
+  @media screen and (max-width: 600px) {
+
+    .heading {
+      font:400 3.5vmax "Roboto";
+      padding-bottom: 2vmax;
+  }
+  .confirmshippingArea > p{
+    font:300 2.9vmax "Roboto";
+  }
+    .updateOrderForm {
+      padding: 5vmax;
+    }
+  
+    .updateOrderForm > div > select {
+      padding: 2.5vmax 5vmax;
+      font: 300 2.3vmax cursive;
+    }
+  
+    .updateOrderForm > div > svg {
+      font-size: 2.8vmax;
+    }
+
+    .confirmCartItemsContainer > div > a{
+      font: 300 2vmax "Roboto";
+   }
+
+   .confirmCartItemsContainer > div > span{
+     font: 300 2vmax "Roboto";
+   }
+
+}
