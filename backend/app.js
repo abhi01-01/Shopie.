@@ -30,10 +30,10 @@ app.use("/api/v1",payment) ;
 
 // connecting frontend to backend
 
-app.use(express.static(path.join(__dirname, "../frontend/build")));
+app.use(express.static(path.join(__dirname, "../frontend/build/ecommerce")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
+  res.sendFile(path.resolve(__dirname, "../frontend/build/ecommerce/index.html"));
 });
 
 // Middleware for errors
