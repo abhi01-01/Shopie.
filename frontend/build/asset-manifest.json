@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.3895607b.css",
+    "main.js": "/static/js/main.dbc92702.js",
+    "static/media/laptopImage.jpg": "/static/media/laptopImage.ab85ef7ffcd004cc9a94.jpg",
+    "static/media/background1.jpg": "/static/media/background1.203468144b43c4edda03.jpg",
+    "static/media/apple.png": "/static/media/apple.8eefdf6e2fd64748cfe9.png",
+    "static/media/Shopielogo.png": "/static/media/Shopielogo.1dac20cdc103a8f23713.png",
+    "static/media/logoShopie.png": "/static/media/logoShopie.22d881b855373840ac3e.png",
+    "static/media/google.png": "/static/media/google.40b716df3ec5bcb055a7.png",
+    "static/media/cursor.png": "/static/media/cursor.daa1e3441ad332a5464a.png",
+    "index.html": "/index.html",
+    "main.3895607b.css.map": "/static/css/main.3895607b.css.map",
+    "main.dbc92702.js.map": "/static/js/main.dbc92702.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3895607b.css",
+    "static/js/main.dbc92702.js"
+  ]
+}
