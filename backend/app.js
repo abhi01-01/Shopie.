@@ -32,17 +32,10 @@ app.use("/api/v1",payment) ;
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-app.get("/*", (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
 });
 
-// static files (build of your frontend) for vercel
-// if (process.env.NODE_ENV === 'PRODUCTION') {
-//   app.use(express.static(path.join(__dirname, '../frontend/build')));
-//   app.get('/*', (req, res) => {
-//     res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
-//   })
-// }
 
 // Middleware for errors
 
