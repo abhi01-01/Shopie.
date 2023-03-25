@@ -37,9 +37,173 @@ This section should list any major frameworks/libraries used to bootstrap your p
 * [Postman](https://www.postman.com/)
   Postman is an application used for API testing.
 
-> **File Structure**:
+> **Folder Structure**:
 
-<img align="center" alt="coding" widht="400" src="https://res.cloudinary.com/shopie/image/upload/v1679428141/shopie_file_structure_eukqd3.jpg">
+```
+
+Root
+│
+├── backend
+│   ├── config
+│   │   ├── config.env
+│   │   └── database.js
+│   │── controllers
+│   │   ├── orderController.js
+│   │   ├── paymentController.js
+│   │   ├── productController.js
+│   │   └── userController.js
+│   ├── middleware
+│   │   ├── auth.js
+│   │   ├── catchAsyncErrors.js
+│   │   └── errorMiddleware.js
+│   ├── models
+│   │   ├── orderModel.js
+│   │   ├── productModel.js
+│   │   └── userModel.js
+│   ├── routes
+│   │   ├── orderRoutes.js
+│   │   ├── paymentRoutes.js
+│   │   ├── productRoute.js
+│   │   └── userRoutes.js
+│   ├── utils
+│   │   ├── ApiFeatures.js
+│   │   ├── errorhandler.js
+│   │   ├── jwtToken.js
+│   │   └── sendEmail.js
+│   ├── app.js
+│   └── server.js
+│
+│
+├── frontend
+│   ├── README.md
+│   ├── .gitignore
+│   ├── node_modules
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   │   ├── index.html
+│   │   ├── logo512.png
+│   │   ├── logoShopie1.png
+│   │   ├── profilePng.png
+│   │   ├── manifest.json
+│   │   └── robots.txt
+│   └── src
+│       ├── actions
+│       │   ├── cartAction.js
+│       │   ├── orderAction.js
+│       │   ├── productAction.js
+│       │   └── userAction.js
+│       ├── component
+│       │   ├── admin
+│       │   │   ├── dashboard.css
+│       │   │   ├── Dashboard.js
+│       │   │   ├── newProduct.css
+│       │   │   ├── NewProduct.js
+│       │   │   ├── OrderList.js
+│       │   │   ├── processOrder.css
+│       │   │   ├── ProcessOrder.js
+│       │   │   ├── productList.css
+│       │   │   ├── productList.js
+│       │   │   ├── productreviews.css
+│       │   │   ├── ProductReviews.js
+│       │   │   ├── Sidebar.css
+│       │   │   ├── Sidebar.js
+│       │   │   ├── UpdateProduct.js
+│       │   │   ├── UpdateUser.js
+│       │   │   └── UserList.js
+│       │   ├── Cart
+│       │   │   ├── Cart.js
+│       │   │   ├── Cart.css
+│       │   │   ├── CartItemCard.js
+│       │   │   ├── CartItemCard.css
+│       │   │   ├── CheckOutSteps.js
+│       │   │   ├── CheckOutSteps.css
+│       │   │   ├── ConfirmOrder.js
+│       │   │   ├── ConfirmOrder.css
+│       │   │   ├── OrderSuccess.js
+│       │   │   ├── OrderSuccess.css
+│       │   │   ├── Payment.js
+│       │   │   ├── Payment.css
+│       │   │   ├── Shipping.js
+│       │   │   └── Shipping.css
+│       │   ├── Home
+│       │   │   ├── Home.js
+│       │   │   ├── Home.css
+│       │   │   └── ProductCard.js
+│       │   ├── Layout
+│       │   │   ├── About
+│       │   │   │   ├── About.js
+│       │   │   │   └── about.css
+│       │   │   ├── Contact
+│       │   │   │   ├── Contact.js
+│       │   │   │   └── Contact.css
+│       │   │   ├── Footer
+│       │   │   │   ├── Footer.js
+│       │   │   │   └── Footer.css
+│       │   │   ├── Header
+│       │   │   │   ├── Header.js
+│       │   │   │   ├── Header.css 
+│       │   │   │   └── UseOptions.js
+│       │   │   ├── Loader
+│       │   │   │   ├── Loader.js
+│       │   │   │   └── Loader.css
+│       │   │   └── MetaData.js
+│       │   ├── Order
+│       │   │   ├── MyOrder.js
+│       │   │   ├── myOrders.css
+│       │   │   ├── OrderDetails.js
+│       │   │   └── OrderDetails.css
+│       │   ├── Product
+│       │   │   ├── ProductDetails.js
+│       │   │   ├── ProductDetails.css
+│       │   │   ├── Products.js
+│       │   │   ├── Products.css
+│       │   │   ├── Search.js
+│       │   │   ├── Search.css
+│       │   │   └── ReviewCard.js
+│       │   ├── Route 
+│       │   │   └── ProtectedRoute.js
+│       │   └── User
+│       │       ├── forgotPassword.js
+│       │       ├── forgotPassword.css
+│       │       ├── LoginSignUp.js
+│       │       ├── LoginSignUp.css
+│       │       ├── Profile.js
+│       │       ├── Profile.css
+│       │       ├── ResetPassword.js
+│       │       ├── ResetPassword.css
+│       │       ├── UpdatePassword.js
+│       │       ├── UpdatePassword.css
+│       │       ├── UpdateProfile.js
+│       │       └── UpdateProfile.css 
+│       ├── constants
+│       │   ├── cartConstants.js
+│       │   ├── orderConstants.js
+│       │   ├── productConstants.js
+│       │   └── userConstants.js
+│       ├── images
+│       │   ├── image-1.jpg
+│       │   ├── image-2.jpg
+│       │   ├── image-3.jpg
+│       │   └── image-n.jpg
+│       ├── reducers
+│       │   ├── cartReducer.js
+│       │   ├── oerderReducer.js
+│       │   ├── productReducer.js
+│       │   └── userReducer.js
+│       ├── App.css
+│       ├── App.js
+│       ├── Store.js
+│       ├── index.js
+│       └── setupProxy.js
+│
+├── .gitignore
+├── node_modules
+├── README.md
+├── package-lock.json
+└── package.json
+
+```
 
 > **Deployment**:
 
