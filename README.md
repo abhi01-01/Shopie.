@@ -37,3 +37,12 @@ In conclusion, a well-designed MERN stack e-commerce application should include 
 [Article-3](https://community.render.com/t/how-to-deploy-frontend-and-backend-on-render/7449)   ||
 [Article-4](https://create-react-app.dev/docs/deployment/)   ||
 [Article-5](https://stackoverflow.com/questions/68878329/hosting-a-mern-application-with-vercel-in-2021-without-next-js)  
+
+> **Working of MERN stack app**
+
+<img align="center" alt="coding" widht="400" src="https://res.cloudinary.com/shopie/image/upload/v1679739217/mern2_pwg30h.jpg">
+
+<img align="center" alt="coding" widht="400" src="https://res.cloudinary.com/shopie/image/upload/v1679739008/mern1_kaifse.jpg">
+
+<img align="center" alt="coding" widht="400" src="https://res.cloudinary.com/shopie/image/upload/v1679739521/mern3_oxpdob.jpg">
+
