@@ -7,24 +7,35 @@ MERN stack is a popular choice for building web applications that require both t
 
 To build a robust e-commerce web application using the MERN stack, the following key features are essential.
 
-1. Authentication using JSON Web Tokens (JWT): User authentication is an important aspect of an e-commerce application, and JWTs provide a secure way of verifying user identity.
+* Authentication using JSON Web Tokens (JWT): User authentication is an important aspect of an e-commerce application, and JWTs provide a secure way of verifying user identity.
 
-2. CRUD (Create, Read, Update, Delete) functionality for all items in the store: This feature enables the admin to add, edit, view, and delete all items available in the store.
+* CRUD (Create, Read, Update, Delete) functionality for all items in the store: This feature enables the admin to add, edit, view, and delete all items available in the store.
 
-3. Shopping cart functionality: Users should be able to add items to their cart, view the contents of their cart, and remove items from it.
+* Shopping cart functionality: Users should be able to add items to their cart, view the contents of their cart, and remove items from it.
 
 In conclusion, a well-designed MERN stack e-commerce application should include essential features such as user authentication, CRUD functionality, and shopping cart functionality. By leveraging the power of MongoDB, Express.js, React.js, and Node.js, one can build a scalable and efficient web application that meets the requirements of an e-commerce store.
 
 
 > **Build with**:
 
-1. MongoDB: A document-oriented NoSQL database that provides a flexible data model and scalability.
+This section should list any major frameworks/libraries used to bootstrap your project.
 
-2. Express.js: A back-end web framework for Node.js that simplifies the process of building APIs.
-
-3. React.js: A front-end JavaScript library that enables the creation of interactive user interfaces.
-
-4. Node.js: A server-side JavaScript runtime that provides a scalable and efficient way to build web applications.
+* [MongoDB Atlas](https://www.mongodb.com/atlas/database)
+  **Database**. Deploy a multi-cloud database.
+  The most advanced cloud database service on the market, with unmatched data distribution and mobility across AWS, Azure, and Google Cloud, built-in automation for resource and workload optimization, and so much more.
+* [MongoDB Compass](https://www.mongodb.com/products/compass)
+  **Compass**. The GUI for MongoDB.
+  Compass is an interactive tool for querying, optimizing, and analyzing your MongoDB data. Get key insights, drag and drop to build pipelines, and more.
+* [Express.js](https://expressjs.com/)
+  Express.js, or simply Express, is a back end web application framework for Node.js, released as free and open-source software under the MIT License. It is designed for building web applications and APIs. It has been called the de facto standard server framework for Node.js.
+* [React.js](https://reactjs.org/)
+  A JavaScript library for building user interfaces.
+* [Node.js](https://nodejs.org/en/)
+  Node.js is a free, open-sourced, cross-platform JavaScript run-time environment that lets developers write command line tools and server-side scripts outside of a browser.
+* [Redux Toolkit](https://redux-toolkit.js.org/)
+  The official, opinionated, batteries-included toolset for efficient Redux development.
+* [Postman](https://www.postman.com/)
+  Postman is an application used for API testing.
 
 > **File Structure**:
 
