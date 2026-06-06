@@ -4,6 +4,8 @@
   "description": "",
   "main": "backend/server.js",
   "scripts": {
+    "postinstall": "node scripts/build-frontend.js",
+    "build": "node scripts/build-frontend.js --force",
     "test": "npm run check:backend && npm run test:backend && npm run test:frontend",
     "check:backend": "find backend -name \"*.js\" -print0 | xargs -0 -n 1 node --check",
     "check:frontend": "npm run build --prefix frontend",
@@ -12,7 +14,7 @@
     "test:frontend": "node tests/frontend-routes.test.js",
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
-    "render-postbuild": "NPM_CONFIG_PRODUCTION=false && npm install --prefix frontend && npm run build --prefix frontend"
+    "render-postbuild": "node scripts/build-frontend.js"
   },
   "author": "abhishek singh",
   "license": "ISC",

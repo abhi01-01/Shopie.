@@ -4,6 +4,7 @@ const errorMiddleware = require("./middleware/error")
 const cookieParser = require("cookie-parser") ;
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
+const fs = require("fs");
 const path = require("path");
 const requestLogger = require("./middleware/requestLogger");
 const securityHeaders = require("./middleware/securityHeaders");
@@ -46,11 +47,28 @@ app.use("/api/v1",order) ;
 app.use("/api/v1",payment) ;
 
 // connecting frontend to backend
+const frontendBuildPath = path.join(__dirname, "../frontend/build");
+const frontendIndexPath = path.join(frontendBuildPath, "index.html");
 
-app.use(express.static(path.join(__dirname, "../frontend/build")));
+app.use(express.static(frontendBuildPath));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
+  if (fs.existsSync(frontendIndexPath)) {
+    return res.sendFile(frontendIndexPath);
+  }
+
+  if (req.originalUrl.startsWith("/api/")) {
+    return res.status(404).json({
+      success: false,
+      message: "API route not found",
+    });
+  }
+
+  res.status(503).json({
+    success: false,
+    message:
+      "Frontend build is missing. Run `npm run build` before starting the server, or ensure Render runs the install/build step before `npm start`.",
+  });
 });
 
 
