@@ -4,17 +4,28 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors")
 const ApiFeatures = require("../utils/ApiFeatures") ;
 const cloudinary = require("cloudinary");
 
+const hasCloudinaryConfig = () =>
+  Boolean(
+    process.env.CLOUDINARY_NAME &&
+      process.env.CLOUDINARY_API_KEY &&
+      process.env.CLOUDINARY_API_SECRET
+  );
 
-// Create product --- Admin functionality
+const normalizeImages = (images) => {
+  if (typeof images === "string" && images.trim() !== "") {
+    return [images];
+  }
 
-exports.createProduct = catchAsyncErrors(async(req,res,next)=>{
+  if (Array.isArray(images)) {
+    return images.filter((image) => typeof image === "string" && image.trim() !== "");
+  }
 
-  let images = [];
+  return [];
+};
 
-  if (typeof req.body.images === "string") {
-    images.push(req.body.images);
-  } else {
-    images = req.body.images;
+const uploadProductImages = async (images) => {
+  if (!hasCloudinaryConfig()) {
+    throw new ErrorHandler("Cloudinary is not configured for product image uploads.", 500);
   }
 
   const imagesLinks = [];
@@ -30,7 +41,16 @@ exports.createProduct = catchAsyncErrors(async(req,res,next)=>{
     });
   }
 
-  req.body.images = imagesLinks;
+  return imagesLinks;
+};
+
+
+// Create product --- Admin functionality
+
+exports.createProduct = catchAsyncErrors(async(req,res,next)=>{
+
+  const images = normalizeImages(req.body.images);
+  req.body.images = await uploadProductImages(images);
 
     req.body.user = req.user.id ;
 
@@ -109,15 +129,9 @@ exports.updateProduct = catchAsyncErrors(async (req,res,next)=>{
 
     // Images Start here 
 
-    let images = [];
+    const images = normalizeImages(req.body.images);
 
-     if (typeof req.body.images === "string") {
-         images.push(req.body.images);
-     } else {
-         images = req.body.images;
-     }
-
-     if(images !== undefined){
+     if(images.length > 0){
 
     // Deleteing Product Images
 
@@ -127,20 +141,9 @@ exports.updateProduct = catchAsyncErrors(async (req,res,next)=>{
 
     // Again Uploading Images
 
-    const imagesLinks = [];
-
-    for (let i = 0; i < images.length; i++) {
-      const result = await cloudinary.v2.uploader.upload(images[i], {
-        folder: "products",
-      });
-  
-      imagesLinks.push({
-        public_id: result.public_id,
-        url: result.secure_url,
-      });
-    }
-
-    req.body.images = imagesLinks ;
+    req.body.images = await uploadProductImages(images) ;
+ } else {
+    delete req.body.images;
  }
 
 

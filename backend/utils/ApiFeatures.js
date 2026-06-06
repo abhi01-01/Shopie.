@@ -1,6 +1,3 @@
-const { stringify } = require("nodemon/lib/utils");
-const { search } = require("../routes/productRoute");
-
 class ApiFeatures {
     constructor(query,queryStr){
         this.query=query;

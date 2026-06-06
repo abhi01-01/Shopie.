@@ -99,20 +99,39 @@ exports.updateOrder = catchAsyncErrors(async(req,res,next)=>{
         return next(new ErrorHandler("You have already delivered this order",400)) ;
     }
 
-    if (req.body.status === "Shipped") {
-    order.orderItems.forEach(async (o) => {
-      await updateStock(o.product, o.quantity);
-    });
-  }
+    const nextStatus = req.body.status;
 
-    order.orderItems.forEach(async(o)=>{
-        await updateStock(o.product,o.quantity) ;
-    });
+    if(order.orderStatus === nextStatus){
+        return res.status(200).json({
+            success:true,
+        });
+    }
 
-    order.orderStatus = req.body.status;
+    const allowedTransitions = {
+        Processing:["Shipped","Delivered"],
+        Shipped:["Delivered"],
+    };
 
-    if(req.body.status === "Delivered"){
-        order.deliveredAt=Date.now() ;
+    if(!allowedTransitions[order.orderStatus]?.includes(nextStatus)){
+        return next(new ErrorHandler(`Cannot update order from ${order.orderStatus} to ${nextStatus}`,400)) ;
+    }
+
+    const shouldDecrementStock =
+        order.orderStatus === "Processing" &&
+        (nextStatus === "Shipped" || nextStatus === "Delivered");
+
+    if (shouldDecrementStock) {
+        for (const item of order.orderItems) {
+            await updateStock(item.product, item.quantity);
+        }
+    }
+
+    order.orderStatus = nextStatus;
+
+    if(nextStatus === "Delivered"){
+        const deliveredAt = Date.now();
+        order.deliveredAt = deliveredAt;
+        order.dileveredAt = deliveredAt;
     }
 
     await order.save({validateBeforeSave:false}) ;
@@ -128,6 +147,14 @@ exports.updateOrder = catchAsyncErrors(async(req,res,next)=>{
 async function updateStock(id,quantity) {
 
     const product = await Product.findById(id) ;
+
+    if(!product){
+        throw new ErrorHandler(`Product not found while updating stock: ${id}`,400) ;
+    }
+
+    if(product.Stock < quantity){
+        throw new ErrorHandler(`Insufficient stock for product: ${product.name}`,400) ;
+    }
 
     product.Stock -= quantity ;
 

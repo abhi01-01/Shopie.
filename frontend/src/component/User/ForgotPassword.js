@@ -19,10 +19,7 @@ const ForgotPassword = () => {
     const forgotPasswordSubmit = (e) =>{
         e.preventDefault();
 
-        const myForm = new FormData() ;
-
-        myForm.set("email",email);
-        dispatch(forgotPassword(myForm));
+        dispatch(forgotPassword({ email }));
     };
 
     useEffect(()=>{

@@ -75,7 +75,7 @@ const ProductDetails = ({match}) => {
     useEffect(()=>{
         if(error){
             alert.error(error) ;
-            dispatch(clearErrors);
+            dispatch(clearErrors());
         }
         if (reviewError) {
           alert.error(reviewError);

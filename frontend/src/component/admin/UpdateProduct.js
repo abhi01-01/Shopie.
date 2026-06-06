@@ -17,6 +17,7 @@ import SideBar from "./Sidebar";
 import {UPDATE_PRODUCT_RESET} from "../../constants/productConstants";
 
 const UpdateProduct = ({history,match}) => {
+  const MAX_PRODUCT_IMAGE_SIZE = 5 * 1024 * 1024;
 
   const dispatch = useDispatch();
   const alert = useAlert();
@@ -78,18 +79,14 @@ const UpdateProduct = ({history,match}) => {
   const updateProductSubmitHandler = (e) => {
     e.preventDefault();
 
-    const myForm = new FormData();
-
-    myForm.set("name", name);
-    myForm.set("price", price);
-    myForm.set("description", description);
-    myForm.set("category", category);
-    myForm.set("Stock", Stock);
-
-    images.forEach((image) => {
-      myForm.append("images", image);
-    });
-    dispatch(updateProduct(productId, myForm));
+    dispatch(updateProduct(productId, {
+      name,
+      price,
+      description,
+      category,
+      Stock,
+      images,
+    }));
   };
 
   const updateProductImagesChange = (e) => {
@@ -100,6 +97,11 @@ const UpdateProduct = ({history,match}) => {
     setOldImages([]);
 
     files.forEach((file) => {
+      if (file.size > MAX_PRODUCT_IMAGE_SIZE) {
+        alert.error("Each product image must be 5 MB or smaller.");
+        return;
+      }
+
       const reader = new FileReader();
 
       reader.onload = () => {
@@ -122,7 +124,6 @@ const UpdateProduct = ({history,match}) => {
         <div className="newProductContainer">
           <form
             className="createProductForm"
-            encType="multipart/form-data"
             onSubmit={updateProductSubmitHandler}
           >
             <h1>Update Product</h1>

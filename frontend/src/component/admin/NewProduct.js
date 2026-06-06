@@ -15,6 +15,7 @@ import {NEW_PRODUCT_RESET} from "../../constants/productConstants";
 
 
 const NewProduct = ({history}) => {
+  const MAX_PRODUCT_IMAGE_SIZE = 5 * 1024 * 1024;
 
   const dispatch = useDispatch();
   const alert = useAlert();
@@ -56,18 +57,14 @@ const NewProduct = ({history}) => {
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
 
-    const myForm = new FormData();
-
-    myForm.set("name", name);
-    myForm.set("price", price);
-    myForm.set("description", description);
-    myForm.set("category", category);
-    myForm.set("Stock", Stock);
-
-    images.forEach((image) => {
-      myForm.append("images", image);
-    });
-    dispatch(createProduct(myForm));
+    dispatch(createProduct({
+      name,
+      price,
+      description,
+      category,
+      Stock,
+      images,
+    }));
   };
 
 
@@ -78,6 +75,11 @@ const NewProduct = ({history}) => {
     setImagesPreview([]);
 
     files.forEach((file) => {
+      if (file.size > MAX_PRODUCT_IMAGE_SIZE) {
+        alert.error("Each product image must be 5 MB or smaller.");
+        return;
+      }
+
       const reader = new FileReader();
 
       reader.onload = () => {
@@ -101,7 +103,6 @@ const NewProduct = ({history}) => {
           <div className='newProductContainer'>
             <form 
             className="createProductForm"
-            encType="multipart/form-data"
             onSubmit={createProductSubmitHandler}
             >
                 <h1>Create Product</h1>

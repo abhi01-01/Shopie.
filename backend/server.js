@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
   }
   
 
-// connecting to database ( do it after config always)
+// connecting to database (do it after config always)
 
 connectDatabase() ;
 

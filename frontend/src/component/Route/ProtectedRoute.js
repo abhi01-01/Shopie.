@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import {useSelector} from "react-redux";
 import { Redirect , Route } from 'react-router-dom';
+import Loader from "../layout/Loader/Loader";
 
 const ProtectedRoute = ({isAdmin , component : Component , ...rest}) => {
 
@@ -8,7 +9,9 @@ const ProtectedRoute = ({isAdmin , component : Component , ...rest}) => {
 
   return (
     <Fragment>
-        {loading === false && (
+        {loading ? (
+            <Loader />
+        ) : (
             <Route
                 {...rest}
                 render={(props)=>{
@@ -16,14 +19,14 @@ const ProtectedRoute = ({isAdmin , component : Component , ...rest}) => {
                         return <Redirect to="/login" /> ;
                     }
 
-                    if(isAdmin === true && user.role !== "admin" ){
+                    if(isAdmin === true && user?.role !== "admin" ){
                         return <Redirect to="/login" /> ;
                     }
 
                     return <Component {...props} />;
                 }}
             />
-        ) }
+        )}
     </Fragment>
   )
 }

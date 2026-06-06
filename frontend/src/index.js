@@ -5,12 +5,13 @@ import {Provider} from "react-redux" ;
 import store from "./Store" ;
 
 import {positions,transitions,Provider as AlertProvider} from "react-alert" ;
-import AlertTemplate from "react-alert-template-basic";
+import AlertTemplate from "./component/layout/Alert/AlertTemplate";
 
 const options ={
-  timeout:5000,
+  timeout:8000,
   position:positions.BOTTOM_CENTER,
   transition:transitions.SCALE,
+  offset: "20px",
 };
 
 ReactDOM.render(

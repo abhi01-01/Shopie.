@@ -1,4 +1,4 @@
-import { useEffect , useState } from "react";
+import { useEffect , useMemo, useState } from "react";
 import './App.css';
 import WebFont from "webfontloader";
 import axios from "axios";
@@ -10,11 +10,10 @@ import Home from "./component/Home/Home.js"
 import ProductDetails from "./component/Product/ProductDetails.js" 
 import Products from "./component/Product/Products.js"
 import Search from "./component/Product/Search.js"
-import store from "./Store"
 import LoginSignup from './component/User/LoginSignup';
 import { loadUser } from './actions/userAction';
 import UserOptions from "./component/layout/Header/UserOptions.js"
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Profile from "./component/User/Profile.js"
 import ProtectedRoute from "./component/Route/ProtectedRoute"
 import UpdateProfile from "./component/User/UpdateProfile.js"
@@ -46,44 +45,61 @@ import About from "./component/layout/About/About.js";
 
 function App() {
 
+  const dispatch = useDispatch();
   const {isAuthenticated,user} = useSelector((state)=>state.user) ;
-
   const [stripeApiKey , setStripeApiKey ] = useState("") ;
+  const stripePromise = useMemo(
+    () => (stripeApiKey ? loadStripe(stripeApiKey) : null),
+    [stripeApiKey]
+  );
 
 
- async function getStripeApiKey() {
-
-    const {data} = await axios.get("/api/v1/stripeapikey");
-
-    setStripeApiKey(data.stripeApiKey);
- }
+  async function getStripeApiKey() {
+    try {
+      const {data} = await axios.get("/api/v1/stripeapikey");
+      return data.stripeApiKey || "";
+    } catch (error) {
+      return "";
+    }
+  }
 
   useEffect(()=>{  
-
     WebFont.load({
       google: {
         families: ["Roboto", "Droid Sans", "Chilanka"],
       },
     });
-    
-    store.dispatch(loadUser()) ;
+ 
+    dispatch(loadUser()) ;
+  } , [dispatch]) ;
 
-    getStripeApiKey() ;
+  useEffect(() => {
+    let isMounted = true;
 
-  } , []) ;
+    if (isAuthenticated) {
+      getStripeApiKey().then((apiKey) => {
+        if (isMounted) {
+          setStripeApiKey(apiKey);
+        }
+      });
+    } else if (isMounted) {
+      setStripeApiKey("");
+    }
 
-
-  window.addEventListener("contextmenu", (e) => e.preventDefault());
+    return () => {
+      isMounted = false;
+    };
+  } , [isAuthenticated]) ;
 
   return (
     <Router basename='/'> 
 
     <Header/>
 
-    { isAuthenticated && <UserOptions user={user} /> }
+    { isAuthenticated && user && <UserOptions user={user} /> }
 
-    {stripeApiKey && (
-        <Elements stripe={loadStripe(stripeApiKey)}>
+    {stripePromise && (
+        <Elements stripe={stripePromise}>
           <ProtectedRoute exact path="/process/payment" component={Payment} />
         </Elements>
       )}

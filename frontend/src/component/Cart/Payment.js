@@ -13,6 +13,14 @@ import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { clearErrors , createOrder } from '../../actions/orderAction';
 
 
+const buildPaymentDescription = (cartItems) => {
+    const itemNames = cartItems.map((item) => item.name).filter(Boolean);
+    const summary = itemNames.slice(0, 3).join(", ");
+    const suffix = itemNames.length > 3 ? ` +${itemNames.length - 3} more` : "";
+
+    return `Shopie order: ${summary}${suffix}`.slice(0, 200);
+};
+
 
 const Payment = ({history}) => {
 
@@ -30,6 +38,20 @@ const Payment = ({history}) => {
 
     const paymentData = {
         amount : Math.round(orderInfo.totalPrice * 100 ),
+        description: buildPaymentDescription(cartItems),
+        customerName: user.name,
+        customerEmail: user.email,
+        shipping: {
+            name: user.name,
+            phone: shippingInfo.phoneNo,
+            address: {
+                line1: shippingInfo.address,
+                city: shippingInfo.city,
+                state: shippingInfo.state,
+                postal_code: shippingInfo.pinCode,
+                country: shippingInfo.country,
+            },
+        },
     };
 
     const order ={

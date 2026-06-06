@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+
+      - name: Install backend dependencies
+        run: npm ci
+
+      - name: Install frontend dependencies
+        run: npm ci --prefix frontend
+
+      - name: Run backend and route smoke tests
+        run: npm test
+
+      - name: Run secret scan
+        run: npm run check:secrets
+
+      - name: Build frontend
+        run: npm run build --prefix frontend

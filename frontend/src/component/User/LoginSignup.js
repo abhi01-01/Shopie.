@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import { clearErrors , login , register} from '../../actions/userAction';
 import {useAlert} from "react-alert"
  
+const MAX_AVATAR_SIZE = 5 * 1024 * 1024;
 
 const LoginSignup = ({history , location}) => {    
 
@@ -43,18 +44,25 @@ const LoginSignup = ({history , location}) => {
     const registerSubmit = (e) =>{
         e.preventDefault();
 
-        const myForm = new FormData() ;
-
-        myForm.set("name",name) ;
-        myForm.set("email",email);
-        myForm.set("password",password);
-        myForm.set("avatar",avatar);
-
-        dispatch(register(myForm));
+        dispatch(register({name,email,password,avatar}));
     };
 
     const registerDataChange = (e) => {
         if(e.target.name === "avatar"){
+            const file = e.target.files[0];
+
+            if(!file){
+                return;
+            }
+
+            if(file.size > MAX_AVATAR_SIZE){
+                alert.error("Profile image must be 5 MB or smaller.");
+                e.target.value = "";
+                setAvatar("/profilePng.png");
+                setAvatarPreview("/profilePng.png");
+                return;
+            }
+
             const reader = new FileReader() ;
             
             reader.onload = () =>{
@@ -63,7 +71,7 @@ const LoginSignup = ({history , location}) => {
                     setAvatar(reader.result);
                 }
             };
-            reader.readAsDataURL(e.target.files[0]) ;
+            reader.readAsDataURL(file) ;
         }else{
             setUser({...user , [e.target.name]: e.target.value});
         }
@@ -192,7 +200,7 @@ const LoginSignup = ({history , location}) => {
                           onChange={registerDataChange} 
                           />
                       </div>
-                      <p>Max Image-size = 750 KB</p>
+                      <p>Max Image-size = 5 MB</p>
                       <input 
                       type="submit"
                       value="Register"

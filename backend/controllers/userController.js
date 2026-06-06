@@ -5,25 +5,71 @@ const sendToken = require("../utils/jwtToken") ;
 const sendEmail = require("../utils/sendEmail") ;
 const crypto = require("crypto") ;
 const cloudinary = require("cloudinary").v2;
+const getCookieOptions = require("../utils/cookieOptions");
+
+const hasCloudinaryConfig = () =>
+    Boolean(
+        process.env.CLOUDINARY_NAME &&
+        process.env.CLOUDINARY_API_KEY &&
+        process.env.CLOUDINARY_API_SECRET
+    );
+
+const isDataUri = (value = "") =>
+    typeof value === "string" && value.startsWith("data:");
+
+const getDataUriSizeInBytes = (value = "") => {
+    if (!isDataUri(value)) {
+        return 0;
+    }
+
+    const base64Payload = value.split(",")[1] || "";
+    return Buffer.byteLength(base64Payload, "base64");
+};
+
+const validateAvatarSize = (avatar) => {
+    if (isDataUri(avatar) && getDataUriSizeInBytes(avatar) > 5 * 1024 * 1024) {
+        throw new ErrorHandler("Profile image must be 5 MB or smaller.", 400);
+    }
+};
+
+const getAvatarPayload = async (avatar, currentAvatar = {}) => {
+    if (hasCloudinaryConfig() && isDataUri(avatar)) {
+        const uploadedAvatar = await cloudinary.uploader.upload(avatar, {
+            folder: "avatars",
+            width: 150,
+            crop: "scale",
+        });
+
+        return {
+            public_id: uploadedAvatar.public_id,
+            url: uploadedAvatar.secure_url,
+        };
+    }
+
+    if (typeof avatar === "string" && avatar.trim() !== "") {
+        return {
+            public_id: currentAvatar.public_id || "local-avatar",
+            url: avatar,
+        };
+    }
+
+    return {
+        public_id: currentAvatar.public_id || "local-avatar",
+        url: currentAvatar.url || "/profilePng.png",
+    };
+};
 
 // Register a user
 
 exports.registerUser = catchAsyncErrors(async(req,res,next)=>{
 
-    const myCloud = await cloudinary.uploader.upload(req.body.avatar,{
-        folder:"avatars",
-        width:150,
-        crop:"scale"
-    }); 
-
     const {name,email,password} = req.body;
+    validateAvatarSize(req.body.avatar);
+    const avatar = await getAvatarPayload(req.body.avatar);
     
     const user = await User.create({
         name,email,password,
-        avatar:{
-            public_id:myCloud.public_id,
-            url:myCloud.secure_url,
-        },
+        avatar,
     });
     
     sendToken(user,201,res) ;
@@ -62,10 +108,7 @@ exports.loginUser = catchAsyncErrors(async(req,res,next)=>{
 
 exports.logout = catchAsyncErrors(async(req,res,next)=>{
 
-    res.cookie("token",null,{
-        expires:new Date(Date.now()),
-        httpOnly:true,
-    });
+    res.cookie("token",null,getCookieOptions(new Date(Date.now())));
 
 
     res.status(200).json({
@@ -90,11 +133,8 @@ exports.forgotPassword = catchAsyncErrors(async(req,res,next)=>{
 
     await user.save({validateBeforeSave:false}) ;
 
-    //this is for when server is running on the same port
-    const resetPasswordUrl = `${req.protocol}://${req.get("host")}/password/reset/${resetToken}` ;
-    
-    // Since frontend and backend are running on different ports on localhost 
-    //const resetPasswordUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
+    const appUrl = (process.env.FRONTEND_URL || `${req.protocol}://${req.get("host")}`).replace(/\/$/, "");
+    const resetPasswordUrl = `${appUrl}/password/reset/${resetToken}` ;
 
     const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\n if you have not requested this email then , please ignore it.` ;
 
@@ -196,33 +236,23 @@ exports.updatePassword = catchAsyncErrors(async(req,res,next)=>{
 
 exports.updateProfile = catchAsyncErrors(async(req,res,next)=>{
 
+    const user = await User.findById(req.user.id);
+    validateAvatarSize(req.body.avatar);
+
     const newUserData = {
         name:req.body.name,
         email:req.body.email,
     };
 
-    // cloudinary here
+    if(req.body.avatar && req.body.avatar !== user.avatar.url){
+        if(user.avatar.public_id && hasCloudinaryConfig()){
+            await cloudinary.uploader.destroy(user.avatar.public_id) ;
+        }
 
-    if(req.body.avatar !== ""){
-        const user = await User.findById(req.user.id);
+        newUserData.avatar = await getAvatarPayload(req.body.avatar, user.avatar);
+    }
 
-        const imageId = user.avatar.public_id ;
-
-        await cloudinary.uploader.destroy(imageId) ;
-
-    const myCloud = await cloudinary.uploader.upload(req.body.avatar,{
-        folder:"avatars",
-        width:150,
-        crop:"scale"
-    }); 
-
-    newUserData.avatar = {
-        public_id:myCloud.public_id,
-        url:myCloud.secure_url,
-    };
-}
-
-    const user = await User.findByIdAndUpdate(req.user.id,newUserData,{
+    await User.findByIdAndUpdate(req.user.id,newUserData,{
         new:true,
         runValidators:true,
         useFindAndModify:false,
@@ -295,9 +325,9 @@ exports.deleteUser = catchAsyncErrors(async(req,res,next)=>{
         return next(new ErrorHandler(`User does not exist with id: ${req.params.id}`,400)) ;
     }
 
-    const imageId = user.avatar.public_id ;
-
-    await cloudinary.uploader.destroy(imageId) ;
+    if(user.avatar.public_id && hasCloudinaryConfig()){
+        await cloudinary.uploader.destroy(user.avatar.public_id) ;
+    }
     
     await user.remove() ;
 

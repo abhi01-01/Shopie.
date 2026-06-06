@@ -9,7 +9,9 @@ import "./Profile.css";
 const Profile = ({history}) => {
 
     const {loading , user , isAuthenticated } = useSelector((state)=>state.user);
-    const image = user.avatar.url;
+    const image = user?.avatar?.url || "/profilePng.png";
+    const joinedOn = user?.createdAt ? String(user.createdAt).substr(0,10) : "";
+
     useEffect(()=>{
         if(isAuthenticated===false){
             history.push("/login");
@@ -20,27 +22,27 @@ const Profile = ({history}) => {
   return ( 
     <Fragment>
   {
-    loading ? (<Loader/>) :(
+    loading || !user?._id ? (<Loader/>) :(
     <Fragment>
-    <MetaData title={`Shopie. || ${user.name}'s Profile`} />
+    <MetaData title={`Shopie. || ${user?.name || "User"}'s Profile`} />
     <div className='profileContainer'>
         <div>
             <h1>My Profile:-</h1>
-            <img src={image} alt={user.name} />
+            <img src={image} alt={user?.name || "Profile"} />
             <Link to="/me/update">Edit Profile</Link>
         </div>
         <div>
             <div>
                 <h4>Full Name:</h4>
-                <p>{user.name}</p>
+                <p>{user?.name || ""}</p>
             </div>
             <div>
                 <h4>Email:</h4>
-                <p>{user.email}</p>
+                <p>{user?.email || ""}</p>
             </div>
             <div>
                 <h4>Joined On:</h4>
-                <p>{String(user.createdAt).substr(0,10)}</p>
+                <p>{joinedOn}</p>
             </div>
             <div>
                 <Link to="/orders">My Orders</Link>

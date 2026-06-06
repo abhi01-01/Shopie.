@@ -9,6 +9,7 @@ import {useAlert} from "react-alert"
 import { UPDATE_PROFILE_RESET } from '../../constants/userConstant';
 import MetaData from '../layout/MetaData';
 
+const MAX_AVATAR_SIZE = 5 * 1024 * 1024;
 
 const UpdateProfile = ({history}) => {
 
@@ -26,16 +27,24 @@ const UpdateProfile = ({history}) => {
     const updateProfileSubmit = (e) =>{
         e.preventDefault();
 
-        const myForm = new FormData() ;
-
-        myForm.set("name",name) ;
-        myForm.set("email",email);
-        myForm.set("avatar",avatar);
-
-        dispatch(updateProfile(myForm));
+        dispatch(updateProfile({name,email,avatar}));
     };
 
     const updateProfileDataChange = (e) => {
+            const file = e.target.files[0];
+
+            if(!file){
+                return;
+            }
+
+            if(file.size > MAX_AVATAR_SIZE){
+                alert.error("Profile image must be 5 MB or smaller.");
+                e.target.value = "";
+                setAvatar(user?.avatar?.url || "/profilePng.png");
+                setAvatarPreview(user?.avatar?.url || "/profilePng.png");
+                return;
+            }
+
             const reader = new FileReader() ;
             reader.onload = () =>{
                 if(reader.readyState === 2){
@@ -43,7 +52,7 @@ const UpdateProfile = ({history}) => {
                     setAvatar(reader.result);
                 }
             };
-            reader.readAsDataURL(e.target.files[0]) ;
+            reader.readAsDataURL(file) ;
     };
 
         useEffect(()=>{
@@ -51,7 +60,8 @@ const UpdateProfile = ({history}) => {
             if(user){
                 setName(user.name);
                 setEmail(user.email);
-                setAvatarPreview(user.avatar.url);    
+                setAvatar(user?.avatar?.url || "/profilePng.png");
+                setAvatarPreview(user?.avatar?.url || "/profilePng.png");    
             }
             if(error){
                 alert.error(error);
